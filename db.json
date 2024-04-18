@@ -1,0 +1,60 @@
+{
+  "SDD_NDD_Superfast_Pincodes": [
+    {
+      "id": 3000,
+      "cPin": "560001",
+      "shipsCity": "WN-MBLR0001",
+      "priority": true,
+      "LBD": false,
+      "is2HourDelivery": false
+    },
+    {
+      "id": 3001,
+      "cPin": "560002",
+      "shipsCity": "WN-MBLR0001",
+      "priority": true,
+      "LBD": true,
+      "is2HourDelivery": false
+    },
+    {
+      "0": {
+        "id": 3000,
+        "cPin": "560001",
+        "shipsCity": "WN-MBLR0001",
+        "priority": true,
+        "LBD": false,
+        "is2HourDelivery": false
+      }
+    }
+  ],
+  "Pincodes": [
+    {
+      "id": 1,
+      "cPin": 744302,
+      "city": "Nicobars",
+      "state": "AN",
+      "stateFullName": "Andaman and Nicobars"
+    },
+    {
+      "id": 2,
+      "cPin": 744302,
+      "city": "Nicobars",
+      "state": "AN",
+      "stateFullName": "Andaman and Nicobars"
+    }
+  ],
+  "SBD":[
+    {
+      "id":1,
+      "WH":"BLRDSKN1",
+      "SBD":false,
+      "is2HourDel": false
+    },
+    {
+      "id":1,
+      "WH":"BLRDSKN1",
+      "SBD":false,
+      "is2HourDel": false
+    }
+  ]
+}

@@ -26,6 +26,14 @@ const users: UserDataType[] = [
     fullName: 'Jane Doe',
     username: 'janedoe',
     email: 'client@vuexy.com'
+  },
+  {
+    id: 3,
+    role: 'client',
+    password: 'client',
+    fullName: 'M B',
+    username: 'janedoe',
+    email: 'mb@vuexy.com'
   }
 ]
 
@@ -46,17 +54,23 @@ mock.onPost('/jwt/login').reply(request => {
   }
 
   const user = users.find(u => u.email === email && u.password === password)
-
+  console.log(user);
   if (user) {
+    
+    console.log("in");
+    
     const accessToken = jwt.sign({ id: user.id }, jwtConfig.secret as string, { expiresIn: jwtConfig.expirationTime })
 
     const response = {
       accessToken,
-      userData: { ...user, password: undefined }
+      userData: { ...user, password: user.password }
     }
+console.log(response);
 
     return [200, response]
   } else {
+    console.log('kkk');
+    
     error = {
       email: ['email or Password is Invalid']
     }

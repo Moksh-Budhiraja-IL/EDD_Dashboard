@@ -1,3 +1,5 @@
+import { SDD_NDD_Superfast_PincodesType, WHOperationRowsType } from "../types";
+
 export const rows = [
   {
     id: 1,
@@ -651,3 +653,86 @@ export const rows = [
     status: 1
   }
 ]
+
+const fakeData = [];
+
+for (let i = 1; i <= 50; i++) {
+  fakeData.push({
+    cPin: 110000 + i, // Example: Incrementing cPin by 1 for each row
+    city: `City ${i}`, // Example: City 1, City 2, etc.
+    state: `State ${i}`, // Example: State 1, State 2, etc.
+    id: i,
+    stateFullName: `State Full Name ${i}` // Example: State Full Name 1, State Full Name 2, etc.
+  });
+}
+export const PinCodeTableRows = fakeData
+
+
+export let WHOperationRows: any[] = [
+
+  {
+    "WH": "WN-MBLR0001",
+    "Courier": "WH_Master",
+    "Sunday": "1",
+    "Monday": "1",
+    "Tuesday ": "1",
+    "Wednesday": "1",
+    "Thursday": "1",
+    "Friday": "1",
+    "Saturday": "1"
+  },
+  {
+    "WH": "WN-MBLR0001",
+    "Courier": "SDD",
+    "Sunday": "1",
+    "Monday": "1",
+    "Tuesday ": "1",
+    "Wednesday": "1",
+    "Thursday": "1",
+    "Friday": "1",
+    "Saturday": "1"
+  },
+  {
+    "WH": "WN-MBLR0001",
+    "Courier": "NDD",
+    "Sunday": "1",
+    "Monday": "1",
+    "Tuesday ": "1",
+    "Wednesday": "1",
+    "Thursday": "1",
+    "Friday": "1",
+    "Saturday": "1"
+  },
+  {
+    "WH": "WN-MBLR0001",
+    "Courier": "Ohers",
+    "Sunday": "1",
+    "Monday": "1",
+    "Tuesday ": "1",
+    "Wednesday": "1",
+    "Thursday": "1",
+    "Friday": "1",
+    "Saturday": "1"
+  },
+  {
+    "WH": "WN-MBLR0001",
+    "Courier": "Superfast Del",
+    "Sunday": "1",
+    "Monday": "1",
+    "Tuesday ": "1",
+    "Wednesday": "1",
+    "Thursday": "1",
+    "Friday": "1",
+    "Saturday": "1"
+  },
+
+]
+
+
+
+
+
+
+
+
+

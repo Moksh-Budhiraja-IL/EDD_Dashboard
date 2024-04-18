@@ -1,3 +1,4 @@
+import { WHOperationRows } from './table/static-data';
 // Type Imports
 import { ThemeColor } from 'src/@core/layouts/types'
 import {
@@ -160,7 +161,39 @@ export type DataGridRowType = {
   start_date: string
   experience: string
 }
+export type PinCodeTableRowsType = {
+  cPin: number
+  city: string
+  state: string
+  id: number
+  stateFullName: string
+}
+export type Weekday = {
+  weekday: string;
+  weekdayBool: boolean;
+};
 
+export type Courier = {
+  courierType: string;
+  courierStatus: boolean;
+  weekdays: Weekday[];
+};
+
+export type WHOperationRowsType = {
+  id: string;
+  wh: string;
+  whStatus: boolean;
+  couriers: Courier[];
+};
+export type SDD_NDD_Superfast_PincodesType = {
+  [key: string]: any;
+  id: number;
+  cPin: string
+  shipsCity: string
+  priority: boolean
+  LBD: boolean
+  is2HourDelivery: boolean
+};
 // Help Center
 //------------
 export type HelpCenterSubcategoryArticlesType = {

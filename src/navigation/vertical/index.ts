@@ -20,6 +20,38 @@ const navigation = (): VerticalNavItemsType => {
         {
           title: 'eCommerce',
           path: '/dashboards/ecommerce'
+        },
+        {
+          title: 'EDD',
+          icon: 'tabler:smart-home',
+          path: '/dashboards/edd',
+          children: [
+            // {
+            //   title: 'Courier Table',
+            //   path: '/dashboards/EDD/courier-table'
+            // },
+            {
+              title: 'LBD',
+              path: '/dashboards/edd/lbd'
+            },
+            {
+              title: 'Pincode List',
+              path: '/dashboards/edd/pincode-list'
+            },
+            {
+              title: 'SBD',
+              path: '/dashboards/edd/sbd'
+            },
+            {
+              title: 'SDD NDD Superfast Pincodes',
+              path: '/dashboards/edd/sdd-ndd-superfast-pincodes'
+            },
+            {
+              title: 'WH Operations',
+              path: '/dashboards/edd/wh-operations'
+            },
+
+          ]
         }
       ]
     },
@@ -350,7 +382,7 @@ const navigation = (): VerticalNavItemsType => {
       icon: 'tabler:brand-tabler'
     },
     {
-      
+
       title: 'Cards',
       icon: 'tabler:id',
       children: [
