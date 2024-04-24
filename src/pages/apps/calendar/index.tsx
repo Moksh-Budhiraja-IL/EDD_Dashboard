@@ -14,7 +14,7 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Types
 import { RootState, AppDispatch } from 'src/store'
-import { CalendarColors, CalendarFiltersType } from 'src/types/apps/calendarTypes'
+import { CalendarColors, CalendarFiltersType } from 'src/views/charts/types/apps/calendarTypes'
 
 // ** FullCalendar & App Components Imports
 import Calendar from 'src/views/apps/calendar/Calendar'

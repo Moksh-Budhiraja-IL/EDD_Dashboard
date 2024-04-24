@@ -25,7 +25,7 @@ import UserViewConnection from 'src/views/apps/user/view/UserViewConnection'
 import UserViewNotification from 'src/views/apps/user/view/UserViewNotification'
 
 // ** Types
-import { InvoiceType } from 'src/types/apps/invoiceTypes'
+import { InvoiceType } from 'src/views/charts/types/apps/invoiceTypes'
 
 interface Props {
   tab: string

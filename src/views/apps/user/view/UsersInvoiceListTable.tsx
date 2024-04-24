@@ -22,7 +22,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Type Imports
 import { ThemeColor } from 'src/@core/layouts/types'
-import { InvoiceType } from 'src/types/apps/invoiceTypes'
+import { InvoiceType } from 'src/views/charts/types/apps/invoiceTypes'
 
 // ** Custom Component Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'

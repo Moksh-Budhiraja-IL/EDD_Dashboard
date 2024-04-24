@@ -5,7 +5,7 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext, InferGetStaticPr
 import axios from 'axios'
 
 // ** Types
-import { InvoiceType } from 'src/types/apps/invoiceTypes'
+import { InvoiceType } from 'src/views/charts/types/apps/invoiceTypes'
 
 // ** Demo Components Imports
 import Preview from 'src/views/apps/invoice/preview/Preview'

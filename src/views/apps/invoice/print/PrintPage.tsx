@@ -18,7 +18,7 @@ import { styled, useTheme } from '@mui/material/styles'
 import TableCell, { TableCellBaseProps } from '@mui/material/TableCell'
 
 // ** Types
-import { SingleInvoiceType, InvoiceLayoutProps } from 'src/types/apps/invoiceTypes'
+import { SingleInvoiceType, InvoiceLayoutProps } from 'src/views/charts/types/apps/invoiceTypes'
 
 // ** Third Party Components
 import axios from 'axios'

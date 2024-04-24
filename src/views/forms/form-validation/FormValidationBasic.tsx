@@ -30,7 +30,7 @@ import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
 
 // ** Types
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { DateType } from 'src/views/charts/types/forms/reactDatepickerTypes'
 
 interface State {
   password: string

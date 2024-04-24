@@ -12,7 +12,7 @@ import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 import setMinutes from 'date-fns/setMinutes'
 
 // ** Types
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { DateType } from 'src/views/charts/types/forms/reactDatepickerTypes'
 
 // ** Custom Component Imports
 import CustomInput from './PickersCustomInput'

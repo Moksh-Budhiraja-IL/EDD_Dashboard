@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid'
 import Alert from '@mui/material/Alert'
 
 // ** Types
-import { SingleInvoiceType, InvoiceLayoutProps } from 'src/types/apps/invoiceTypes'
+import { SingleInvoiceType, InvoiceLayoutProps } from 'src/views/charts/types/apps/invoiceTypes'
 
 // ** Third Party Components
 import axios from 'axios'

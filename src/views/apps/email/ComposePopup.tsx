@@ -33,7 +33,7 @@ import ReactDraftWysiwyg from 'src/@core/components/react-draft-wysiwyg'
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 
 // ** Types
-import { MailComposeType, FieldMenuItems } from 'src/types/apps/emailTypes'
+import { MailComposeType, FieldMenuItems } from 'src/views/charts/types/apps/emailTypes'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'

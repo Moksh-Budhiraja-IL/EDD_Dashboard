@@ -8,7 +8,7 @@ import Box from '@mui/material/Box'
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 
 // ** Types
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { DateType } from 'src/views/charts/types/forms/reactDatepickerTypes'
 
 // ** Custom Component Imports
 import CustomInput from './PickersCustomInput'

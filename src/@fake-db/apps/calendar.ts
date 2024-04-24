@@ -2,7 +2,7 @@
 import mock from 'src/@fake-db/mock'
 
 // ** Types
-import { EventType } from 'src/types/apps/calendarTypes'
+import { EventType } from 'src/views/charts/types/apps/calendarTypes'
 
 const date = new Date()
 const nextDay = new Date(new Date().getTime() + 24 * 60 * 60 * 1000)

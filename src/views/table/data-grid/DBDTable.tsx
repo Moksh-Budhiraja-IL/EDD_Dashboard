@@ -23,7 +23,7 @@ import ServerSideToolbar from "src/views/table/data-grid/ServerSideToolbar";
 
 // ** Types Imports
 import { ThemeColor } from "src/@core/layouts/types";
-import { SDD_NDD_Superfast_PincodesRowType } from "src/@fake-db/types";
+import { DBDTableRowType } from "src/@fake-db/types";
 
 // ** Utils Import
 import { getInitials } from "src/@core/utils/get-initials";
@@ -40,12 +40,11 @@ interface StatusObj {
 
 type SortType = "asc" | "desc" | undefined | null;
 
-const WHOperationsTable = () => {
+const DBDTable = () => {
   const [total, setTotal] = useState<number>(0);
-  const [sort, setSort] = useState<SortType>("asc");
   const [isRowEditable, setIsRowEditable] = useState(false);
   const [editRowId, setEditRowId] = useState<number>(-1);
-  const [rows, setRows] = useState<SDD_NDD_Superfast_PincodesRowType[]>([]);
+  const [rows, setRows] = useState<DBDTableRowType[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
   const [sortColumn, setSortColumn] = useState<string>("cc");
   const [paginationModel, setPaginationModel] = useState({
@@ -53,35 +52,95 @@ const WHOperationsTable = () => {
     pageSize: 5,
   });
 
-  const handleCheckboxChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    id: number,
-    fieldName: string
-  ) => {
-    const { checked } = event.target;
-    setRows((prevRows) =>
-      prevRows.map((row) => {
-        if (row.id === id) {
-          return { ...row, [fieldName]: checked };
-        }
-        return row;
-      })
-    );
-  };
-
   const handleSave = () => {
     axios
       .post("http://localhost:3333/SDD_NDD_Superfast_Pincodes/", rows)
       .then((response) => {
         fetchTableData();
+        setIsRowEditable(false);
+        setEditRowId(-1);
         console.log("Data saved successfully:", response);
       })
       .catch((error) => {
+        setIsRowEditable(false);
+        setEditRowId(-1);
         console.error("Error saving data:", error);
       });
   };
+  const handleEdit = (rowId: number) => {
+    setEditRowId(rowId);
+    setIsRowEditable(true);
+  };
+  const handleCancel = () => {
+    fetchTableData();
+    setIsRowEditable(false);
+    setEditRowId(-1);
+  };
 
-  const handleCellEdit = (editRow: SDD_NDD_Superfast_PincodesRowType) => {
+  const columns: GridColDef[] = [
+    {
+      flex: 0.175,
+      minWidth: 110,
+      field: "id",
+      headerName: "id",
+      renderCell: (params: GridRenderCellParams) => (
+        <Typography variant="body2" sx={{ color: "text.primary" }}>
+          {params.row.id}
+        </Typography>
+      ),
+    },
+    {
+      flex: 0.175,
+      minWidth: 110,
+      field: "cPin",
+      headerName: "cPin",
+      editable: isRowEditable,
+      renderCell: (params: GridRenderCellParams) => (
+        <Typography variant="body2" sx={{ color: "text.primary" }}>
+          {params.row.cPin}
+        </Typography>
+      ),
+    },
+    {
+      flex: 0.175,
+      minWidth: 110,
+      field: "DBD",
+      headerName: "DBD",
+      editable: true,
+      renderCell: (params: GridRenderCellParams) => (
+        <Typography variant="body2" sx={{ color: "text.primary" }}>
+          {params.row.DBD}
+        </Typography>
+      ),
+    },
+  ];
+
+  // function loadServerRows(
+  //   currentPage: number,
+  //   data: SDD_NDD_Superfast_PincodesType[]
+  // ) {
+  //   return data.slice(
+  //     currentPage * paginationModel.pageSize,
+  //     (currentPage + 1) * paginationModel.pageSize
+  //   );
+  // }
+
+  const fetchTableData = useCallback(
+    async () => {
+      await axios.get("http://localhost:3333/DBD/").then((res) => {
+        setTotal(res.data.length);
+        setRows(res.data);
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [paginationModel]
+  );
+
+  useEffect(() => {
+    fetchTableData();
+  }, []);
+
+  const handleCellEdit = (editRow: DBDTableRowType) => {
     const updatedRows = rows.map((row) =>
       row.id === editRow.id ? { ...row, ...editRow } : row
     );
@@ -113,21 +172,13 @@ const WHOperationsTable = () => {
     const newId = rows.length > 0 ? rows[rows.length - 1].id + 1 : 1;
     const newRow = {
       id: newId,
-      cPin: "",
-      shipsCity: "",
-      priority: false,
-      LBD: false,
-      is2HourDelivery: false,
+      cPin: 0,
+      DBD: 0,
     };
     const updatedRows = [newRow, ...rows];
     setRows(updatedRows.sort((a, b) => b.id - a.id));
     setEditRowId(newId);
     setIsRowEditable(true);
-  };
-  const handleCancel = () => {
-    fetchTableData();
-    setIsRowEditable(false);
-    setEditRowId(-1);
   };
 
   const handleSearch = (value: string) => {
@@ -135,133 +186,10 @@ const WHOperationsTable = () => {
     fetchTableData();
   };
 
-  const columns: GridColDef[] = [
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "id",
-      headerName: "id",
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant="body2" sx={{ color: "text.primary" }}>
-          {params.row.id}
-        </Typography>
-      ),
-    },
-    { field: "wh", headerName: "Warehouse Name", flex: 0.25 },
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "whStatus",
-      headerName: "whStatus",
-      renderCell: (params: GridRenderCellParams) => (
-        <Checkbox
-          checked={params.row.priority}
-          onChange={(event) =>
-            handleCheckboxChange(event, params.row.id, "whStatus")
-          }
-        />
-      ),
-    },
-    { field: "courierName", headerName: "Courier Name", flex: 0.25 },
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "cPin",
-      headerName: "cPin",
-      editable: isRowEditable,
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant="body2" sx={{ color: "text.primary" }}>
-          {params.row.cPin}
-        </Typography>
-      ),
-    },
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "shipsCity",
-      headerName: "shipsCity",
-      editable: isRowEditable,
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant="body2" sx={{ color: "text.primary" }}>
-          {params.row.shipsCity}
-        </Typography>
-      ),
-    },
-
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "priority",
-      headerName: "priority",
-      renderCell: (params: GridRenderCellParams) => (
-        <Checkbox
-          checked={params.row.priority}
-          onChange={(event) =>
-            handleCheckboxChange(event, params.row.id, "priority")
-          }
-        />
-      ),
-    },
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "LBD",
-      headerName: "LBD",
-      renderCell: (params: GridRenderCellParams) => (
-        <Checkbox
-          checked={params.row.LBD}
-          onChange={(event) =>
-            handleCheckboxChange(event, params.row.id, "LBD")
-          }
-        />
-      ),
-    },
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "is2HourDelivery",
-      headerName: "is2HourDelivery",
-      renderCell: (params: GridRenderCellParams) => (
-        <Checkbox
-          checked={params.row.is2HourDelivery}
-          onChange={(event) =>
-            handleCheckboxChange(event, params.row.id, "is2HourDelivery")
-          }
-        />
-      ),
-    },
-  ];
-
-  // function loadServerRows(
-  //   currentPage: number,
-  //   data: SDD_NDD_Superfast_PincodesType[]
-  // ) {
-  //   return data.slice(
-  //     currentPage * paginationModel.pageSize,
-  //     (currentPage + 1) * paginationModel.pageSize
-  //   );
-  // }
-
-  const fetchTableData = useCallback(
-    async () => {
-      await axios
-        .get("http://localhost:3333/SDD_NDD_Superfast_Pincodes/")
-        .then((res) => {
-          setTotal(res.data.length);
-          setRows(res.data);
-        });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [paginationModel]
-  );
-
-  useEffect(() => {
-    fetchTableData();
-  }, []);
   return (
     <>
       <Card>
-        <CardHeader title="WH Operations" />
+        <CardHeader title="Destination Buffer Days (DBD)" />
         <DataGrid
           autoHeight
           pagination
@@ -272,9 +200,12 @@ const WHOperationsTable = () => {
           paginationMode="client"
           pageSizeOptions={[5, 10, 25, 50]}
           paginationModel={paginationModel}
+          //   slots={{ toolbar: ServerSideToolbar }}
           isCellEditable={(params) => {
-            return params.row.id === editRowId;
+            return params.row.id === editRowId || params.field === "DBD";
           }}
+          onPaginationModelChange={setPaginationModel}
+          onCellEditStop={(params) => handleCellEdit(params as any)}
           components={{
             Toolbar: () => (
               <div style={{ marginLeft: 20 }}>
@@ -301,9 +232,6 @@ const WHOperationsTable = () => {
               </div>
             ),
           }}
-          // slots={{ toolbar: ServerSideToolbar }}
-          onPaginationModelChange={setPaginationModel}
-          onCellEditStop={(params) => handleCellEdit(params as any)}
           slotProps={{
             baseButton: {
               size: "medium",
@@ -321,4 +249,4 @@ const WHOperationsTable = () => {
     </>
   );
 };
-export default WHOperationsTable;
+export default DBDTable;

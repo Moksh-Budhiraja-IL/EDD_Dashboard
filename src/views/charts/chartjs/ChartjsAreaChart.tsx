@@ -20,7 +20,7 @@ import { ChartData, ChartOptions } from 'chart.js'
 import Icon from 'src/@core/components/icon'
 
 // ** Types
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { DateType } from 'src/views/charts/types/forms/reactDatepickerTypes'
 
 interface AreaProps {
   blue: string

@@ -33,8 +33,8 @@ import DatePicker from 'react-datepicker'
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Types
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
-import { InvoiceClientType } from 'src/types/apps/invoiceTypes'
+import { DateType } from 'src/views/charts/types/forms/reactDatepickerTypes'
+import { InvoiceClientType } from 'src/views/charts/types/apps/invoiceTypes'
 
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'

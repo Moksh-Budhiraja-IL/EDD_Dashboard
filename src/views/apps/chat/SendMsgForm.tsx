@@ -14,7 +14,7 @@ import CustomTextField from 'src/@core/components/mui/text-field'
 import Icon from 'src/@core/components/icon'
 
 // ** Types
-import { SendMsgComponentType } from 'src/types/apps/chatTypes'
+import { SendMsgComponentType } from 'src/views/charts/types/apps/chatTypes'
 
 // ** Styled Components
 const ChatFormWrapper = styled(Box)<BoxProps>(({ theme }) => ({

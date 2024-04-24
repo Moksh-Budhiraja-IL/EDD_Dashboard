@@ -161,31 +161,37 @@ export type DataGridRowType = {
   start_date: string
   experience: string
 }
-export type PinCodeTableRowsType = {
+export type PinCodeTableRowType = {
+  [key: string]: any;
   cPin: number
   city: string
   state: string
   id: number
   stateFullName: string
 }
-export type Weekday = {
+export interface Weekday {
+  id: number;
   weekday: string;
   weekdayBool: boolean;
-};
+}
 
-export type Courier = {
-  courierType: string;
+export interface Courier {
+  [key: string]: any;
+  id: number;
+  courierName: string;
   courierStatus: boolean;
   weekdays: Weekday[];
-};
+}
 
-export type WHOperationRowsType = {
-  id: string;
+export interface WHOperationRowType {
+  [key: string]: any;
+  id: number;
   wh: string;
   whStatus: boolean;
-  couriers: Courier[];
-};
-export type SDD_NDD_Superfast_PincodesType = {
+  courier: Courier[];
+}
+
+export type SDD_NDD_Superfast_PincodesRowType = {
   [key: string]: any;
   id: number;
   cPin: string
@@ -194,6 +200,56 @@ export type SDD_NDD_Superfast_PincodesType = {
   LBD: boolean
   is2HourDelivery: boolean
 };
+
+export type SBDTableRowType = {
+  [key: string]: any;
+  id: number;
+  WH: string
+  SBD: boolean
+  is2HourDelivery: boolean
+};
+export type DBDTableRowType = {
+  [key: string]: any;
+  id: number;
+  cPin: number
+  DBD: number
+};
+export type LBDTableRowType = {
+  [key: string]: any;
+  id: number;
+  cPin: number
+  wh: string
+  minWt: number
+  maxWt: number
+  LBD: number
+};
+export type CutOffRowType = {
+  [key: string]: any;
+  id: number,
+  WH: string,
+  type: string,
+  cutOff: string
+};
+export type WHConfigRowType = {
+  [key: string]: any;
+  id: number
+  wh: string
+  panIndiaStatus: boolean
+  panIndiaEDDConfigCsv: File | null
+  SDDStatus: boolean
+  SDDPincodesCsv: File | null
+  NDDStatus: boolean
+  NDDPincodesCsv: File | null
+  SuperfastStatus: boolean
+  SuperfastPincodesCsv: File | null
+  panIndiaCutOff: string
+  SDDCutOff: string
+  NDDCutOff: string
+  SuperfastCutOff: string
+  workingDays: number
+  SBD: number
+}
+
 // Help Center
 //------------
 export type HelpCenterSubcategoryArticlesType = {

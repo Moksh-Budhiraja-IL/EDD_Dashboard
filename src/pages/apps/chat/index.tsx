@@ -12,7 +12,7 @@ import { sendMsg, selectChat, fetchUserProfile, fetchChatsContacts, removeSelect
 
 // ** Types
 import { RootState, AppDispatch } from 'src/store'
-import { StatusObjType, StatusType } from 'src/types/apps/chatTypes'
+import { StatusObjType, StatusType } from 'src/views/charts/types/apps/chatTypes'
 
 // ** Hooks
 import { useSettings } from 'src/@core/hooks/useSettings'

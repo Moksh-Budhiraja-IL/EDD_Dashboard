@@ -1,4 +1,4 @@
-import { SDD_NDD_Superfast_PincodesType, WHOperationRowsType } from "../types";
+
 
 export const rows = [
   {

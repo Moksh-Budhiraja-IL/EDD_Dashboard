@@ -15,7 +15,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Types
 import { ThemeColor } from 'src/@core/layouts/types'
-import { SidebarLeftType, CalendarFiltersType } from 'src/types/apps/calendarTypes'
+import { SidebarLeftType, CalendarFiltersType } from 'src/views/charts/types/apps/calendarTypes'
 
 // ** Styled Component
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'

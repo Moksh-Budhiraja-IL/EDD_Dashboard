@@ -26,7 +26,7 @@ import Icon from 'src/@core/components/icon'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 // ** Types
-import { EventDateType, AddEventSidebarType } from 'src/types/apps/calendarTypes'
+import { EventDateType, AddEventSidebarType } from 'src/views/charts/types/apps/calendarTypes'
 
 interface PickerProps {
   label?: string

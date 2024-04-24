@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next'
 import DatePicker, { registerLocale, ReactDatePickerProps } from 'react-datepicker'
 
 // ** Types
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { DateType } from 'src/views/charts/types/forms/reactDatepickerTypes'
 
 // ** Custom Component Imports
 import CustomInput from './PickersCustomInput'

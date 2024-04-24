@@ -12,7 +12,7 @@ import {
   FetchMailParamsType,
   UpdateMailParamsType,
   PaginateMailParamsType
-} from 'src/types/apps/emailTypes'
+} from 'src/views/charts/types/apps/emailTypes'
 
 interface ReduxType {
   getState: any

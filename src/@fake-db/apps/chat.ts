@@ -2,7 +2,7 @@
 import mock from 'src/@fake-db/mock'
 
 // ** Types
-import { ProfileUserType, ChatsObj, ContactType } from 'src/types/apps/chatTypes'
+import { ProfileUserType, ChatsObj, ContactType } from 'src/views/charts/types/apps/chatTypes'
 
 const previousDay = new Date(new Date().getTime() - 24 * 60 * 60 * 1000)
 const dayBeforePreviousDay = new Date(new Date().getTime() - 24 * 60 * 60 * 1000 * 2)

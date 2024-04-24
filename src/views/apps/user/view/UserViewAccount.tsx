@@ -18,7 +18,7 @@ import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline'
 import Icon from 'src/@core/components/icon'
 
 // ** Types
-import { InvoiceType } from 'src/types/apps/invoiceTypes'
+import { InvoiceType } from 'src/views/charts/types/apps/invoiceTypes'
 
 // ** Demo Component Imports
 import UsersInvoiceListTable from 'src/views/apps/user/view/UsersInvoiceListTable'

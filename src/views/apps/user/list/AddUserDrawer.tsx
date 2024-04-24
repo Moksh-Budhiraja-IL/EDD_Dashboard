@@ -29,7 +29,7 @@ import { addUser } from 'src/store/apps/user'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
-import { UsersType } from 'src/types/apps/userTypes'
+import { UsersType } from 'src/views/charts/types/apps/userTypes'
 
 interface SidebarAddUserType {
   open: boolean

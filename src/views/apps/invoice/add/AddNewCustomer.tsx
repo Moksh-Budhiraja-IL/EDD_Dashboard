@@ -19,7 +19,7 @@ import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
 
 // ** Types
-import { InvoiceClientType } from 'src/types/apps/invoiceTypes'
+import { InvoiceClientType } from 'src/views/charts/types/apps/invoiceTypes'
 
 interface Props {
   open: boolean

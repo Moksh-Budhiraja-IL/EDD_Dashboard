@@ -5,7 +5,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 // ** Types
-import { CalendarFiltersType, AddEventType, EventType } from 'src/types/apps/calendarTypes'
+import { CalendarFiltersType, AddEventType, EventType } from 'src/views/charts/types/apps/calendarTypes'
 
 // ** Fetch Events
 export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async (calendars: CalendarFiltersType[]) => {

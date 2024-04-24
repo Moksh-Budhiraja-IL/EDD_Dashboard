@@ -21,7 +21,7 @@ import format from 'date-fns/format'
 import DatePicker from 'react-datepicker'
 
 // ** Types
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { DateType } from 'src/views/charts/types/forms/reactDatepickerTypes'
 
 interface PickerProps {
   label?: string

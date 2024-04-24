@@ -29,7 +29,7 @@ import Icon from 'src/@core/components/icon'
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 
 // ** Types
-import { ContactType, ChatSidebarLeftType, ChatsArrType } from 'src/types/apps/chatTypes'
+import { ContactType, ChatSidebarLeftType, ChatsArrType } from 'src/views/charts/types/apps/chatTypes'
 
 // ** Custom Components Import
 import CustomAvatar from 'src/@core/components/mui/avatar'

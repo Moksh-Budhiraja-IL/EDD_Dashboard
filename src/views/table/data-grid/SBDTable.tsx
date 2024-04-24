@@ -23,7 +23,7 @@ import ServerSideToolbar from "src/views/table/data-grid/ServerSideToolbar";
 
 // ** Types Imports
 import { ThemeColor } from "src/@core/layouts/types";
-import { SDD_NDD_Superfast_PincodesType } from "src/@fake-db/types";
+import { SBDTableRowType } from "src/@fake-db/types";
 
 // ** Utils Import
 import { getInitials } from "src/@core/utils/get-initials";
@@ -42,8 +42,13 @@ type SortType = "asc" | "desc" | undefined | null;
 
 const SBDTable = () => {
   const [total, setTotal] = useState<number>(0);
-  const [sort, setSort] = useState<SortType>("asc");
-  const [rows, setRows] = useState<SDD_NDD_Superfast_PincodesType[]>([]);
+  const [isRowEditable, setIsRowEditable] = useState(false);
+  const [editRowId, setEditRowId] = useState<number>(-1);
+  const [sortModel, setSortModel] = useState([
+    { field: "id", sort: "asc" },
+  ] as GridSortModel);
+
+  const [rows, setRows] = useState<SBDTableRowType[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
   const [sortColumn, setSortColumn] = useState<string>("cc");
   const [paginationModel, setPaginationModel] = useState({
@@ -67,125 +72,7 @@ const SBDTable = () => {
     );
   };
 
-  const handleSave = () => {
-    axios
-      .post("http://localhost:3333/SDD_NDD_Superfast_Pincodes/", rows)
-      .then((response) => {
-        console.log("Data saved successfully:", response);
-      })
-      .catch((error) => {
-        console.error("Error saving data:", error);
-      });
-  };
-
-  const columns: GridColDef[] = [
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "cPin",
-      headerName: "cPin",
-      editable: true,
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant="body2" sx={{ color: "text.primary" }}>
-          {params.row.cPin}
-        </Typography>
-      ),
-    },
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "shipsCity",
-      headerName: "shipsCity",
-      editable: true,
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant="body2" sx={{ color: "text.primary" }}>
-          {params.row.shipsCity}
-        </Typography>
-      ),
-    },
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "id",
-      headerName: "id",
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant="body2" sx={{ color: "text.primary" }}>
-          {params.row.id}
-        </Typography>
-      ),
-    },
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "priority",
-      headerName: "priority",
-      renderCell: (params: GridRenderCellParams) => (
-        <Checkbox
-          checked={params.row.priority}
-          onChange={(event) =>
-            handleCheckboxChange(event, params.row.id, "priority")
-          }
-        />
-      ),
-    },
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "LBD",
-      headerName: "LBD",
-      renderCell: (params: GridRenderCellParams) => (
-        <Checkbox
-          checked={params.row.LBD}
-          onChange={(event) =>
-            handleCheckboxChange(event, params.row.id, "LBD")
-          }
-        />
-      ),
-    },
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "is2HourDelivery",
-      headerName: "is2HourDelivery",
-      renderCell: (params: GridRenderCellParams) => (
-        <Checkbox
-          checked={params.row.is2HourDelivery}
-          onChange={(event) =>
-            handleCheckboxChange(event, params.row.id, "is2HourDelivery")
-          }
-        />
-      ),
-    },
-  ];
-
-  // function loadServerRows(
-  //   currentPage: number,
-  //   data: SDD_NDD_Superfast_PincodesType[]
-  // ) {
-  //   return data.slice(
-  //     currentPage * paginationModel.pageSize,
-  //     (currentPage + 1) * paginationModel.pageSize
-  //   );
-  // }
-
-  const fetchTableData = useCallback(
-    async (sort: SortType, q: string, column: string) => {
-      await axios
-        .get("http://localhost:3333/SDD_NDD_Superfast_Pincodes/")
-        .then((res) => {
-          setTotal(res.data.length);
-          setRows(res.data);
-        });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [paginationModel]
-  );
-
-  useEffect(() => {
-    fetchTableData(sort, searchValue, sortColumn);
-  }, [fetchTableData, searchValue, sort, sortColumn]);
-
-  const handleCellEdit = (editRow: SDD_NDD_Superfast_PincodesType) => {
+  const handleCellEdit = (editRow: SBDTableRowType) => {
     const updatedRows = rows.map((row) =>
       row.id === editRow.id ? { ...row, ...editRow } : row
     );
@@ -213,51 +100,114 @@ const SBDTable = () => {
     setRows(updatedRows);
   };
 
-  // const handleSortModel = (newModel: GridSortModel) => {
-  //   if (newModel.length) {
-  //     setSort(newModel[0].sort);
-  //     setSortColumn(newModel[0].field);
-  //     fetchTableData(newModel[0].sort, searchValue, newModel[0].field);
-  //   } else {
-  //     setSort("asc");
-  //     setSortColumn("id");
-  //   }
-  // };
   const handleAddRow = () => {
     const newId = rows.length > 0 ? rows[rows.length - 1].id + 1 : 1;
     const newRow = {
       id: newId,
-      cPin: '',
-      shipsCity: '',
-      priority: false,
-      LBD: false,
-      is2HourDelivery: false
+      WH: "",
+      SBD: false,
+      is2HourDelivery: false,
     };
-    setRows([...rows, newRow]);
+    const updatedRows = [newRow, ...rows];
+    setRows(updatedRows.sort((a, b) => b.id - a.id));
+    setIsRowEditable(true);
+    setEditRowId(newId);
+  };
+  const handleCancel = () => {
+    fetchTableData();
+    setIsRowEditable(false);
+    setEditRowId(-1);
   };
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
-    fetchTableData(sort, value, sortColumn);
+    fetchTableData();
   };
+
+  const handleSave = () => {
+    axios
+      .post("http://localhost:3333/SBD/", rows)
+      .then((response) => {
+        fetchTableData();
+        console.log("Data saved successfully:", response);
+      })
+      .catch((error) => {
+        console.error("Error saving data:", error);
+      });
+  };
+
+  const fetchTableData = useCallback(
+    async () => {
+      await axios.get("http://localhost:3333/SBD/").then((res) => {
+        setTotal(res.data.length);
+        setRows(res.data);
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [paginationModel]
+  );
+
+  const columns: GridColDef[] = [
+    {
+      flex: 0.175,
+      minWidth: 110,
+      field: "id",
+      headerName: "id",
+      renderCell: (params: GridRenderCellParams) => (
+        <Typography variant="body2" sx={{ color: "text.primary" }}>
+          {params.row.id}
+        </Typography>
+      ),
+    },
+    {
+      flex: 0.175,
+      minWidth: 110,
+      field: "WH",
+      headerName: "WH",
+      editable: isRowEditable,
+      renderCell: (params: GridRenderCellParams) => (
+        <Typography variant="body2" sx={{ color: "text.primary" }}>
+          {params.row.WH}
+        </Typography>
+      ),
+    },
+    {
+      flex: 0.175,
+      minWidth: 110,
+      field: "SBD",
+      headerName: "SBD",
+      renderCell: (params: GridRenderCellParams) => (
+        <Checkbox
+          checked={params.row.SBD}
+          onChange={(event) =>
+            handleCheckboxChange(event, params.row.id, "SBD")
+          }
+        />
+      ),
+    },
+    {
+      flex: 0.175,
+      minWidth: 110,
+      field: "is2HourDelivery",
+      headerName: "is2HourDelivery",
+      renderCell: (params: GridRenderCellParams) => (
+        <Checkbox
+          checked={params.row.is2HourDelivery}
+          onChange={(event) =>
+            handleCheckboxChange(event, params.row.id, "is2HourDelivery")
+          }
+        />
+      ),
+    },
+  ];
+  useEffect(() => {
+    fetchTableData();
+  }, []);
 
   return (
     <>
-      <Button variant="contained" onClick={handleAddRow}>
-        Add Row
-      </Button>{" "}
-      <Button
-        onClick={handleSave}
-        variant="contained"
-        color="primary"
-        className="mt-4 ml-auto"
-      >
-        Save
-      </Button>
-      <br />
-      <br />
       <Card>
-        <CardHeader title="SDD NDD SuperFast Delivery" />
+        <CardHeader title="SBD" />
         <DataGrid
           autoHeight
           pagination
@@ -265,14 +215,45 @@ const SBDTable = () => {
           rowCount={total}
           columns={columns}
           disableRowSelectionOnClick
-          sortingMode="server"
-          paginationMode="server"
+          paginationMode="client"
           pageSizeOptions={[5, 10, 25, 50]}
           paginationModel={paginationModel}
-          // onSortModelChange={handleSortModel}
-          slots={{ toolbar: ServerSideToolbar }}
+          isCellEditable={(params) => {
+            return (
+              params.row.id === editRowId ||
+              params.field === "SBD" ||
+              params.field === "is2HourDelivery"
+            );
+          }}
+          //   slots={{ toolbar: ServerSideToolbar }}
           onPaginationModelChange={setPaginationModel}
           onCellEditStop={(params) => handleCellEdit(params as any)}
+          components={{
+            Toolbar: () => (
+              <div style={{ marginLeft: 20 }}>
+                <Button variant="contained" onClick={handleSave}>
+                  Save
+                </Button>{" "}
+                {isRowEditable ? (
+                  <>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={handleCancel}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <Button variant="contained" onClick={() => handleAddRow()}>
+                    Add New Row
+                  </Button>
+                )}
+                <br />
+                <br />
+              </div>
+            ),
+          }}
           slotProps={{
             baseButton: {
               size: "medium",

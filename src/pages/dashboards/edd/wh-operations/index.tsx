@@ -1,11 +1,7 @@
-
-import Grid from '@mui/material/Grid'
-import WHOperationsTable from 'src/views/table/data-grid/WHOperationsTable'
+import WHOperationsTable from "src/views/table/data-grid/WHOperationsTable";
 
 const EDDWHOperations = () => {
-    // return (
-    //     <WHOperationsTable />
-    // )
-}
+  return <WHOperationsTable />;
+};
 
-export default EDDWHOperations
+export default EDDWHOperations;

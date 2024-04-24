@@ -23,16 +23,13 @@ import ServerSideToolbar from "src/views/table/data-grid/ServerSideToolbar";
 
 // ** Types Imports
 import { ThemeColor } from "src/@core/layouts/types";
-import {
-  PinCodeTableRowsType,
-  SDD_NDD_Superfast_PincodesType,
-} from "src/@fake-db/types";
 
 // ** Utils Import
 import { getInitials } from "src/@core/utils/get-initials";
 import { PinCodeTableRows } from "src/@fake-db/table/static-data";
 import { Button, Checkbox } from "@mui/material";
 import { log } from "console";
+import { LBDTableRowType } from "src/@fake-db/types";
 
 interface StatusObj {
   [key: number]: {
@@ -45,8 +42,9 @@ type SortType = "asc" | "desc" | undefined | null;
 
 const LBDTable = () => {
   const [total, setTotal] = useState<number>(0);
-  const [sort, setSort] = useState<SortType>("asc");
-  const [rows, setRows] = useState<PinCodeTableRowsType[]>([]);
+  const [isRowEditable, setIsRowEditable] = useState(false);
+  const [editRowId, setEditRowId] = useState<number>(-1);
+  const [rows, setRows] = useState<LBDTableRowType[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
   const [sortColumn, setSortColumn] = useState<string>("cc");
   const [paginationModel, setPaginationModel] = useState({
@@ -54,91 +52,32 @@ const LBDTable = () => {
     pageSize: 5,
   });
 
-  const handleCheckboxChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    id: number,
-    fieldName: string
-  ) => {
-    const { checked } = event.target;
-    setRows((prevRows) =>
-      prevRows.map((row) => {
-        if (row.id === id) {
-          return { ...row, [fieldName]: checked };
-        }
-        return row;
-      })
-    );
-  };
-
-  const [jsonData, setJsonData] = useState<any[]>([]);
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        if (event.target) {
-          const content = event.target.result as string;
-          const rows = content.split("\n");
-          const headers = rows[0].split(",");
-          const data = rows.slice(1).map((row) => {
-            const values = row.split(",");
-            return headers.reduce((obj, header, index) => {
-              obj[header.trim()] = values[index].trim();
-              return obj;
-            }, {} as any);
-          });
-          setJsonData(data);
-        }
-      };
-      reader.readAsText(file);
-    }
-  };
   const handleSave = () => {
     axios
-      .post("http://localhost:3333/SDD_NDD_Superfast_Pincodes/", rows)
+      .post("http://localhost:3333/LDB/", rows)
       .then((response) => {
+        fetchTableData();
+        setIsRowEditable(false);
+        setEditRowId(-1);
         console.log("Data saved successfully:", response);
       })
       .catch((error) => {
+        setIsRowEditable(false);
+        setEditRowId(-1);
         console.error("Error saving data:", error);
       });
   };
+  const handleEdit = (rowId: number) => {
+    setEditRowId(rowId);
+    setIsRowEditable(true);
+  };
+  const handleCancel = () => {
+    fetchTableData();
+    setIsRowEditable(false);
+    setEditRowId(-1);
+  };
 
   const columns: GridColDef[] = [
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "cPin",
-      headerName: "cPin",
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant="body2" sx={{ color: "text.primary" }}>
-          {params.row.cPin}
-        </Typography>
-      ),
-    },
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "city",
-      headerName: "city",
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant="body2" sx={{ color: "text.primary" }}>
-          {params.row.city}
-        </Typography>
-      ),
-    },
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "state",
-      headerName: "state",
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant="body2" sx={{ color: "text.primary" }}>
-          {params.row.state}
-        </Typography>
-      ),
-    },
     {
       flex: 0.175,
       minWidth: 110,
@@ -153,29 +92,79 @@ const LBDTable = () => {
     {
       flex: 0.175,
       minWidth: 110,
-      field: "stateFullName",
-      headerName: "stateFullName",
+      field: "cPin",
+      headerName: "cPin",
+      editable: isRowEditable,
       renderCell: (params: GridRenderCellParams) => (
         <Typography variant="body2" sx={{ color: "text.primary" }}>
-          {params.row.stateFullName}
+          {params.row.cPin}
+        </Typography>
+      ),
+    },
+    {
+      flex: 0.175,
+      minWidth: 110,
+      field: "wh",
+      headerName: "wh",
+      editable: isRowEditable,
+      renderCell: (params: GridRenderCellParams) => (
+        <Typography variant="body2" sx={{ color: "text.primary" }}>
+          {params.row.wh}
+        </Typography>
+      ),
+    },
+    {
+      flex: 0.175,
+      minWidth: 110,
+      field: "minWt",
+      headerName: "minWt",
+      editable: true,
+      renderCell: (params: GridRenderCellParams) => (
+        <Typography variant="body2" sx={{ color: "text.primary" }}>
+          {params.row.minWt}
+        </Typography>
+      ),
+    },
+    {
+      flex: 0.175,
+      minWidth: 110,
+      field: "maxWt",
+      headerName: "maxWt",
+      editable: true,
+      renderCell: (params: GridRenderCellParams) => (
+        <Typography variant="body2" sx={{ color: "text.primary" }}>
+          {params.row.maxWt}
+        </Typography>
+      ),
+    },
+    {
+      flex: 0.175,
+      minWidth: 110,
+      field: "LBD",
+      headerName: "LBD",
+      editable: true,
+      renderCell: (params: GridRenderCellParams) => (
+        <Typography variant="body2" sx={{ color: "text.primary" }}>
+          {params.row.LBD}
         </Typography>
       ),
     },
   ];
-  function loadServerRows(
-    currentPage: number,
-    data: SDD_NDD_Superfast_PincodesType[]
-  ) {
-    return data.slice(
-      currentPage * paginationModel.pageSize,
-      (currentPage + 1) * paginationModel.pageSize
-    );
-  }
+
+  // function loadServerRows(
+  //   currentPage: number,
+  //   data: SDD_NDD_Superfast_PincodesType[]
+  // ) {
+  //   return data.slice(
+  //     currentPage * paginationModel.pageSize,
+  //     (currentPage + 1) * paginationModel.pageSize
+  //   );
+  // }
 
   const fetchTableData = useCallback(
-    async (sort: SortType, q: string, column: string) => {
-      await axios.get("http://localhost:3333/Pincodes/").then((res) => {
-        // setTotal(res.data.total);
+    async () => {
+      await axios.get("http://localhost:3333/LBD/").then((res) => {
+        setTotal(res.data.length);
         setRows(res.data);
       });
     },
@@ -184,77 +173,62 @@ const LBDTable = () => {
   );
 
   useEffect(() => {
-    fetchTableData(sort, searchValue, sortColumn);
-  }, [fetchTableData, searchValue, sort, sortColumn]);
+    fetchTableData();
+  }, []);
 
-  // const handleCellEdit = (editRow: SDD_NDD_Superfast_PincodesType) => {
-  //   const updatedRows = rows.map((row) =>
-  //     row.id === editRow.id ? { ...row, ...editRow } : row
-  //   );
-  //   if (editRow.hasOwnProperty("priority")) {
-  //     updatedRows.forEach((row) => {
-  //       if (row.id === editRow.id) {
-  //         row.priority = editRow.priority;
-  //       }
-  //     });
-  //   }
-  //   if (editRow.hasOwnProperty("LBD")) {
-  //     updatedRows.forEach((row) => {
-  //       if (row.id === editRow.id) {
-  //         row.LBD = editRow.LBD;
-  //       }
-  //     });
-  //   }
-  //   if (editRow.hasOwnProperty("is2HourDelivery")) {
-  //     updatedRows.forEach((row) => {
-  //       if (row.id === editRow.id) {
-  //         row.is2HourDelivery = editRow.is2HourDelivery;
-  //       }
-  //     });
-  //   }
-  //   setRows(updatedRows);
-  // };
+  //   const handleCellEdit = (editRow: LBDTableRowsType) => {
+  //     const updatedRows = rows.map((row) =>
+  //       row.id === editRow.id ? { ...row, ...editRow } : row
+  //     );
+  //     if (editRow.hasOwnProperty("priority")) {
+  //       updatedRows.forEach((row) => {
+  //         if (row.id === editRow.id) {
+  //           row.priority = editRow.priority;
+  //         }
+  //       });
+  //     }
+  //     if (editRow.hasOwnProperty("LBD")) {
+  //       updatedRows.forEach((row) => {
+  //         if (row.id === editRow.id) {
+  //           row.LBD = editRow.LBD;
+  //         }
+  //       });
+  //     }
+  //     if (editRow.hasOwnProperty("is2HourDelivery")) {
+  //       updatedRows.forEach((row) => {
+  //         if (row.id === editRow.id) {
+  //           row.is2HourDelivery = editRow.is2HourDelivery;
+  //         }
+  //       });
+  //     }
+  //     setRows(updatedRows);
+  //   };
 
-  // const handleSortModel = (newModel: GridSortModel) => {
-  //   if (newModel.length) {
-  //     setSort(newModel[0].sort);
-  //     setSortColumn(newModel[0].field);
-  //     fetchTableData(newModel[0].sort, searchValue, newModel[0].field);
-  //   } else {
-  //     setSort("asc");
-  //     setSortColumn("id");
-  //   }
-  // };
+  const handleAddRow = () => {
+    const newId = rows.length > 0 ? rows[rows.length - 1].id + 1 : 1;
+    const newRow = {
+      id: newId,
+      cPin: 0,
+      wh: "",
+      minWt: 0,
+      maxWt: 0,
+      LBD: 0,
+    };
+    const updatedRows = [newRow, ...rows];
+    setRows(updatedRows.sort((a, b) => b.id - a.id));
+    setEditRowId(newId);
+    setIsRowEditable(true);
+  };
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
-    fetchTableData(sort, value, sortColumn);
+    fetchTableData();
   };
 
   return (
     <>
-      <div>
-        <label htmlFor="file-input">
-          <Button variant="contained" component="span">
-            Import CSV
-          </Button>
-        </label>
-        <input
-          id="file-input"
-          type="file"
-          accept=".csv"
-          onChange={handleFileUpload}
-          style={{ display: "none" }}
-        />
-      </div>
-      <br />
-      {/* <div>
-        <h2>JSON Output:</h2>
-        <pre>{JSON.stringify(jsonData, null, 2)}</pre>
-      </div> */}
-
       <Card>
-        <CardHeader title="Pincode List" />
+        <CardHeader title="LBD" />
         <DataGrid
           autoHeight
           pagination
@@ -262,14 +236,45 @@ const LBDTable = () => {
           rowCount={total}
           columns={columns}
           disableRowSelectionOnClick
-          sortingMode="server"
-          paginationMode="server"
+          paginationMode="client"
           pageSizeOptions={[5, 10, 25, 50]}
           paginationModel={paginationModel}
-          // onSortModelChange={handleSortModel}
-          slots={{ toolbar: ServerSideToolbar }}
+          //   slots={{ toolbar: ServerSideToolbar }}
+          isCellEditable={(params) => {
+            return (
+              params.row.id === editRowId ||
+              params.field === "minWt" ||
+              params.field === "maxWt" ||
+              params.field === "LBD"
+            );
+          }}
           onPaginationModelChange={setPaginationModel}
-          // onCellEditStop={(params) => handleCellEdit(params as any)}
+          components={{
+            Toolbar: () => (
+              <div style={{ marginLeft: 20 }}>
+                <Button variant="contained" onClick={handleSave}>
+                  Save
+                </Button>{" "}
+                {isRowEditable ? (
+                  <>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={handleCancel}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <Button variant="contained" onClick={() => handleAddRow()}>
+                    Add New Row
+                  </Button>
+                )}
+                <br />
+                <br />
+              </div>
+            ),
+          }}
           slotProps={{
             baseButton: {
               size: "medium",

@@ -6,7 +6,7 @@ import axios from 'axios'
 
 // ** Types
 import { Dispatch } from 'redux'
-import { SendMsgParamsType } from 'src/types/apps/chatTypes'
+import { SendMsgParamsType } from 'src/views/charts/types/apps/chatTypes'
 
 // ** Fetch User Profile
 export const fetchUserProfile = createAsyncThunk('appChat/fetchUserProfile', async () => {

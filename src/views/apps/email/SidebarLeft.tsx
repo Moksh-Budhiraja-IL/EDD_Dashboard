@@ -26,7 +26,7 @@ import CustomBadge from 'src/@core/components/mui/badge'
 
 // ** Types
 import { CustomBadgeProps } from 'src/@core/components/mui/badge/types'
-import { MailFolderType, MailLabelType, MailSidebarType } from 'src/types/apps/emailTypes'
+import { MailFolderType, MailLabelType, MailSidebarType } from 'src/views/charts/types/apps/emailTypes'
 
 // ** Styled Components
 const ListItemStyled = styled(ListItem)<ListItemProps & { component?: ElementType; href: string }>(({ theme }) => ({

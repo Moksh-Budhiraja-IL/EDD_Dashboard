@@ -24,31 +24,43 @@ const navigation = (): VerticalNavItemsType => {
         {
           title: 'EDD',
           icon: 'tabler:smart-home',
-          path: '/dashboards/edd',
+          path: '/dashboards/EDD',
           children: [
             // {
             //   title: 'Courier Table',
             //   path: '/dashboards/EDD/courier-table'
             // },
             {
+              title: 'Cut Off',
+              path: '/dashboards/EDD/cut-off'
+            },
+            {
+              title: 'DBD',
+              path: '/dashboards/EDD/dbd'
+            },
+            {
               title: 'LBD',
-              path: '/dashboards/edd/lbd'
+              path: '/dashboards/EDD/lbd'
             },
             {
               title: 'Pincode List',
-              path: '/dashboards/edd/pincode-list'
+              path: '/dashboards/EDD/pincode-list'
             },
             {
               title: 'SBD',
-              path: '/dashboards/edd/sbd'
+              path: '/dashboards/EDD/sbd'
             },
             {
               title: 'SDD NDD Superfast Pincodes',
-              path: '/dashboards/edd/sdd-ndd-superfast-pincodes'
+              path: '/dashboards/EDD/sdd-ndd-superfast-pincodes'
+            },
+            {
+              title: 'WH Config',
+              path: '/dashboards/EDD/wh-config'
             },
             {
               title: 'WH Operations',
-              path: '/dashboards/edd/wh-operations'
+              path: '/dashboards/EDD/wh-operations'
             },
 
           ]

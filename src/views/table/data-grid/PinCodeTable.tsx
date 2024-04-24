@@ -23,15 +23,12 @@ import ServerSideToolbar from "src/views/table/data-grid/ServerSideToolbar";
 
 // ** Types Imports
 import { ThemeColor } from "src/@core/layouts/types";
-import {
-  PinCodeTableRowsType,
-  SDD_NDD_Superfast_PincodesType,
-} from "src/@fake-db/types";
+import { PinCodeTableRowType } from "src/@fake-db/types";
 
 // ** Utils Import
 import { getInitials } from "src/@core/utils/get-initials";
 import { PinCodeTableRows } from "src/@fake-db/table/static-data";
-import { Button, Checkbox } from "@mui/material";
+import { Button, IconButton, TextField, Toolbar } from "@mui/material";
 import { log } from "console";
 
 interface StatusObj {
@@ -46,7 +43,8 @@ type SortType = "asc" | "desc" | undefined | null;
 const PinCodeTable = () => {
   const [total, setTotal] = useState<number>(0);
   const [sort, setSort] = useState<SortType>("asc");
-  const [rows, setRows] = useState<PinCodeTableRowsType[]>([]);
+  const [rows, setRows] = useState<PinCodeTableRowType[]>([]);
+  const [jsonData, setJsonData] = useState<any[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
   const [sortColumn, setSortColumn] = useState<string>("cc");
   const [paginationModel, setPaginationModel] = useState({
@@ -54,23 +52,39 @@ const PinCodeTable = () => {
     pageSize: 5,
   });
 
-  const handleCheckboxChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    id: number,
-    fieldName: string
-  ) => {
-    const { checked } = event.target;
-    setRows((prevRows) =>
-      prevRows.map((row) => {
-        if (row.id === id) {
-          return { ...row, [fieldName]: checked };
-        }
-        return row;
-      })
+  // const handleCheckboxChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>,
+  //   id: number,
+  //   fieldName: string
+  // ) => {
+  //   const { checked } = event.target;
+  //   setRows((prevRows) =>
+  //     prevRows.map((row) => {
+  //       if (row.id === id) {
+  //         return { ...row, [fieldName]: checked };
+  //       }
+  //       return row;
+  //     })
+  //   );
+  // };
+
+  const filterData = (rows: PinCodeTableRowType[], searchValue: string) => {
+    debugger;
+    return rows.filter(
+      (item: PinCodeTableRowType) =>
+        item.stateFullName.toLowerCase().includes(searchValue.toLowerCase()) ||
+        item.cPin.toString().toLowerCase().includes(searchValue.toLowerCase())
     );
   };
 
-  const [jsonData, setJsonData] = useState<any[]>([]);
+  const clearSearch = () => {
+    handleSearch("");
+  };
+
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
+    setRows(filterData(rows, searchValue));
+  };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -94,6 +108,20 @@ const PinCodeTable = () => {
       reader.readAsText(file);
     }
   };
+  const handleExport = (data: any[]) => {
+    const headers = Object.keys(data[0]);
+    const csvContent = [
+      headers.join(","),
+      ...data.map((item) => headers.map((header) => item[header]).join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = "data.csv";
+    link.click();
+  };
+
   const handleSave = () => {
     axios
       .post("http://localhost:3333/SDD_NDD_Superfast_Pincodes/", rows)
@@ -174,7 +202,7 @@ const PinCodeTable = () => {
   // }
 
   const fetchTableData = useCallback(
-    async (sort: SortType, q: string, column: string) => {
+    async () => {
       await axios.get("http://localhost:3333/Pincodes/").then((res) => {
         setTotal(res.data.length);
         setRows(res.data);
@@ -185,78 +213,32 @@ const PinCodeTable = () => {
   );
 
   useEffect(() => {
-    fetchTableData(sort, searchValue, sortColumn);
-  }, [fetchTableData, searchValue, sort, sortColumn]);
-
-  // const handleCellEdit = (editRow: SDD_NDD_Superfast_PincodesType) => {
-  //   const updatedRows = rows.map((row) =>
-  //     row.id === editRow.id ? { ...row, ...editRow } : row
-  //   );
-  //   if (editRow.hasOwnProperty("priority")) {
-  //     updatedRows.forEach((row) => {
-  //       if (row.id === editRow.id) {
-  //         row.priority = editRow.priority;
-  //       }
-  //     });
-  //   }
-  //   if (editRow.hasOwnProperty("LBD")) {
-  //     updatedRows.forEach((row) => {
-  //       if (row.id === editRow.id) {
-  //         row.LBD = editRow.LBD;
-  //       }
-  //     });
-  //   }
-  //   if (editRow.hasOwnProperty("is2HourDelivery")) {
-  //     updatedRows.forEach((row) => {
-  //       if (row.id === editRow.id) {
-  //         row.is2HourDelivery = editRow.is2HourDelivery;
-  //       }
-  //     });
-  //   }
-  //   setRows(updatedRows);
-  // };
-
-  // const handleSortModel = (newModel: GridSortModel) => {
-  //   if (newModel.length) {
-  //     setSort(newModel[0].sort);
-  //     setSortColumn(newModel[0].field);
-  //     fetchTableData(newModel[0].sort, searchValue, newModel[0].field);
-  //   } else {
-  //     setSort("asc");
-  //     setSortColumn("id");
-  //   }
-  // };
-
-  const handleSearch = (value: string) => {
-    setSearchValue(value);
-    fetchTableData(sort, value, sortColumn);
-  };
+    fetchTableData();
+  }, []);
 
   return (
     <>
-      <div>
-        <label htmlFor="file-input">
-          <Button variant="contained" component="span">
-            Import CSV
-          </Button>
-        </label>
-        <input
-          id="file-input"
-          type="file"
-          accept=".csv"
-          onChange={handleFileUpload}
-          style={{ display: "none" }}
+      {/* <Toolbar>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <TextField
+          placeholder="Search..."
+          value={searchValue}
+          onChange={(e) => handleSearch(e.target.value)}
+          style={{ marginRight: 8 }}
         />
+        {searchValue && (
+          <button className="clear-button" onClick={clearSearch}>
+            X
+          </button>
+        )}
       </div>
-      <br />
+    </Toolbar> */}
       {/* <div>
         <h2>JSON Output:</h2>
         <pre>{JSON.stringify(jsonData, null, 2)}</pre>
       </div> */}
-
       <Card>
         <CardHeader title="Pincode List" />
-
         <DataGrid
           autoHeight
           pagination
@@ -264,14 +246,44 @@ const PinCodeTable = () => {
           rowCount={total}
           columns={columns}
           disableRowSelectionOnClick
-          sortingMode="server"
           paginationMode="server"
           pageSizeOptions={[5, 10, 25, 50]}
           paginationModel={paginationModel}
           // onSortModelChange={handleSortModel}
-          slots={{ toolbar: ServerSideToolbar }}
+          // slots={{ toolbar: ServerSideToolbar }}
           onPaginationModelChange={setPaginationModel}
           // onCellEditStop={(params) => handleCellEdit(params as any)}
+          components={{
+            Toolbar: () => (
+              <div style={{ marginLeft: 20 }}>
+                <>
+                  <Button
+                    variant="contained"
+                    onClick={() => handleExport(rows)}
+                  >
+                    Export to CSV
+                  </Button>{" "}
+                  <span>
+                    <label htmlFor="file-input">
+                      <Button variant="contained" component="span" color='secondary'>
+                        Import CSV
+                      </Button>
+                    </label>
+                    <input
+                      id="file-input"
+                      type="file"
+                      accept=".csv"
+                      // onChange={handleFileUpload}
+                      style={{ display: "none" }}
+                    />
+                  </span>
+                </>
+
+                <br />
+                <br />
+              </div>
+            ),
+          }}
           slotProps={{
             baseButton: {
               size: "medium",

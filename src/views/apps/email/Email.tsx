@@ -14,7 +14,7 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Types
 import { RootState, AppDispatch } from 'src/store'
-import { MailLayoutType, MailLabelColors } from 'src/types/apps/emailTypes'
+import { MailLayoutType, MailLabelColors } from 'src/views/charts/types/apps/emailTypes'
 
 // ** Email App Component Imports
 import MailLog from 'src/views/apps/email/MailLog'

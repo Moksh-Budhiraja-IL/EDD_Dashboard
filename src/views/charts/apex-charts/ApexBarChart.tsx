@@ -17,7 +17,7 @@ import DatePicker from 'react-datepicker'
 import Icon from 'src/@core/components/icon'
 
 // ** Types
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { DateType } from 'src/views/charts/types/forms/reactDatepickerTypes'
 
 // ** Component Import
 import CustomTextField from 'src/@core/components/mui/text-field'

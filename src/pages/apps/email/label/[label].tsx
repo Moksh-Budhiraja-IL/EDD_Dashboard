@@ -5,7 +5,7 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next/type
 import axios from 'axios'
 
 // ** Types
-import { MailLayoutType, MailType } from 'src/types/apps/emailTypes'
+import { MailLayoutType, MailType } from 'src/views/charts/types/apps/emailTypes'
 
 // ** Demo Components Imports
 import Email from 'src/views/apps/email/Email'

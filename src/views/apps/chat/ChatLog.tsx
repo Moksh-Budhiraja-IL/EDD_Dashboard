@@ -26,7 +26,7 @@ import {
   ChatLogChatType,
   MessageGroupType,
   FormattedChatsType
-} from 'src/types/apps/chatTypes'
+} from 'src/views/charts/types/apps/chatTypes'
 
 const PerfectScrollbar = styled(PerfectScrollbarComponent)<ScrollBarProps & { ref: Ref<unknown> }>(({ theme }) => ({
   padding: theme.spacing(5)

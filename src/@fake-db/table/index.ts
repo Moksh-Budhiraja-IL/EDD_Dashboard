@@ -2,8 +2,7 @@
 import mock from 'src/@fake-db/mock'
 
 // ** Types Imports
-import { DataGridRowType, PinCodeTableRowsType, SDD_NDD_Superfast_PincodesType, WHOperationRowsType } from 'src/@fake-db/types'
-import { PinCodeTableRows, SDD_NDD_Superfast_Pincodes, WHOperationRows } from './static-data'
+import { DataGridRowType,  } from 'src/@fake-db/types'
 
 const data: DataGridRowType[] = [
   {
@@ -659,11 +658,6 @@ const data: DataGridRowType[] = [
   }
 ]
 
-const PtrRow: PinCodeTableRowsType[] = PinCodeTableRows
-
-const WHRow: WHOperationRowsType[] = WHOperationRows
-
-let SNSPRows:SDD_NDD_Superfast_PincodesType [] = SDD_NDD_Superfast_Pincodes
 
 
 mock.onGet('/api/table/data').reply(config => {
@@ -698,100 +692,6 @@ mock.onGet('/api/table/data').reply(config => {
 })
 
 
-mock.onGet('/api/table/pincodeTableList').reply(config => {
-  const { q = '', column = '', sort = '' } = config.params
-  const queryLowered = q.toLowerCase()
 
-  // @ts-ignore
-  const dataAsc = PtrRow.sort((a, b) => (a[column] < b[column] ? -1 : 1))
 
-  const dataToFilter = sort === 'asc' ? dataAsc : dataAsc.reverse()
-
-  const filteredData = dataToFilter.filter(
-      (item: PinCodeTableRowsType) =>
-          item.cPin.toString().toLowerCase().includes(queryLowered) ||
-          item.city.toString().toLowerCase().includes(queryLowered) ||
-          item.state.toString().toLowerCase().includes(queryLowered) ||
-          item.id.toString().toLowerCase().includes(queryLowered) ||
-          item.stateFullName.toString().toLowerCase().includes(queryLowered)
-  )
-
-  return [
-      200,
-      {
-          allData: data,
-          total: filteredData.length,
-          data: filteredData
-      }
-  ]
-})
-mock.onGet('/api/table/WHOperationList').reply(config => {
-  const { q = '', column = '', sort = '' } = config.params
-  const queryLowered = q.toLowerCase()
-
-  // @ts-ignore
-  const dataAsc = WHRow.sort((a, b) => (a[column] < b[column] ? -1 : 1))
-
-  const dataToFilter = sort === 'asc' ? dataAsc : dataAsc.reverse()
-
-  const filteredData = dataToFilter.filter(
-      (item: WHOperationRowsType) =>
-          item.wh.toString().toLowerCase().includes(queryLowered) ||
-          item.whStatus.toString().toLowerCase().includes(queryLowered) ||
-          item.couriers.toString().toLowerCase().includes(queryLowered) 
-  )
-
-  return [
-      200,
-      {
-          allData: data,
-          total: filteredData.length,
-          data: filteredData
-      }
-  ]
-})
-
-mock.onGet('/api/table/SDDNDDSuperfastPincodes').reply(config => {
-  const { q = '', column = '', sort = '' } = config.params
-  const queryLowered = q.toLowerCase()
-
-  // @ts-ignore
-  const dataAsc = SNSPRows.sort((a, b) => (a[column] < b[column] ? -1 : 1))
-
-  const dataToFilter = sort === 'asc' ? dataAsc : dataAsc.reverse()
-
-  const filteredData = dataToFilter.filter(
-      (item: SDD_NDD_Superfast_PincodesType) =>
-          item.cPin.toString().toLowerCase().includes(queryLowered) ||
-          item.shipsCity.toString().toLowerCase().includes(queryLowered) ||
-          item.id.toString().toLowerCase().includes(queryLowered) ||
-          item.LBD.toString().toLowerCase().includes(queryLowered) ||
-          item.priority.toString().toLowerCase().includes(queryLowered) ||
-          item.is2HourDelivery.toString().toLowerCase().includes(queryLowered) 
-  )
-
-  return [
-      200,
-      {
-          allData: data,
-          total: filteredData.length,
-          data: filteredData
-      }
-  ]
-})
-
-mock.onPost('/api/table/SDDNDDSuperfastPincodes').reply(config => {
-  const newData = JSON.parse(config.data); 
-  const index = SNSPRows.findIndex(item => item.id === newData.id);
-
-  if (index !== -1) {
-    // If data with the same id already exists, update it
-    SNSPRows[index] = newData;
-  } else {
-    // If data with the id doesn't exist, add newData to the array
-    SNSPRows.push(newData);
-  }
-  // Respond with the updated data
-  return [200, { message: 'Success', data }];
-});
 

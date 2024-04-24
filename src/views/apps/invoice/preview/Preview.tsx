@@ -12,7 +12,7 @@ import Alert from '@mui/material/Alert'
 import axios from 'axios'
 
 // ** Types
-import { SingleInvoiceType, InvoiceLayoutProps } from 'src/types/apps/invoiceTypes'
+import { SingleInvoiceType, InvoiceLayoutProps } from 'src/views/charts/types/apps/invoiceTypes'
 
 // ** Demo Components Imports
 import PreviewCard from 'src/views/apps/invoice/preview/PreviewCard'

@@ -17,7 +17,7 @@ import TableCell, { TableCellBaseProps } from '@mui/material/TableCell'
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Types
-import { SingleInvoiceType } from 'src/types/apps/invoiceTypes'
+import { SingleInvoiceType } from 'src/views/charts/types/apps/invoiceTypes'
 
 interface Props {
   data: SingleInvoiceType

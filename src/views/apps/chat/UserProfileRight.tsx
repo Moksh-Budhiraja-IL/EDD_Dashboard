@@ -21,7 +21,7 @@ import Icon from 'src/@core/components/icon'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 // ** Type
-import { UserProfileRightType } from 'src/types/apps/chatTypes'
+import { UserProfileRightType } from 'src/views/charts/types/apps/chatTypes'
 
 // ** Custom Component Imports
 import Sidebar from 'src/@core/components/sidebar'

@@ -35,7 +35,7 @@ import {
   MailDetailsType,
   MailFoldersArrType,
   MailAttachmentType
-} from 'src/types/apps/emailTypes'
+} from 'src/views/charts/types/apps/emailTypes'
 
 const HiddenReplyBack = styled(Box)<BoxProps>(({ theme }) => ({
   height: 11,

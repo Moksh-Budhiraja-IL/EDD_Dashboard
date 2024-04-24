@@ -23,7 +23,7 @@ import ServerSideToolbar from "src/views/table/data-grid/ServerSideToolbar";
 
 // ** Types Imports
 import { ThemeColor } from "src/@core/layouts/types";
-import { SDD_NDD_Superfast_PincodesType } from "src/@fake-db/types";
+import { SDD_NDD_Superfast_PincodesRowType } from "src/@fake-db/types";
 
 // ** Utils Import
 import { getInitials } from "src/@core/utils/get-initials";
@@ -43,7 +43,9 @@ type SortType = "asc" | "desc" | undefined | null;
 const SDDNDDSuperfastPincodesTable = () => {
   const [total, setTotal] = useState<number>(0);
   const [sort, setSort] = useState<SortType>("asc");
-  const [rows, setRows] = useState<SDD_NDD_Superfast_PincodesType[]>([]);
+  const [isRowEditable, setIsRowEditable] = useState(false);
+  const [editRowId, setEditRowId] = useState<number>(-1);
+  const [rows, setRows] = useState<SDD_NDD_Superfast_PincodesRowType[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
   const [sortColumn, setSortColumn] = useState<string>("cc");
   const [paginationModel, setPaginationModel] = useState({
@@ -71,6 +73,7 @@ const SDDNDDSuperfastPincodesTable = () => {
     axios
       .post("http://localhost:3333/SDD_NDD_Superfast_Pincodes/", rows)
       .then((response) => {
+        fetchTableData();
         console.log("Data saved successfully:", response);
       })
       .catch((error) => {
@@ -78,31 +81,61 @@ const SDDNDDSuperfastPincodesTable = () => {
       });
   };
 
+  const handleCellEdit = (editRow: SDD_NDD_Superfast_PincodesRowType) => {
+    const updatedRows = rows.map((row) =>
+      row.id === editRow.id ? { ...row, ...editRow } : row
+    );
+    if (editRow.hasOwnProperty("priority")) {
+      updatedRows.forEach((row) => {
+        if (row.id === editRow.id) {
+          row.priority = editRow.priority;
+        }
+      });
+    }
+    if (editRow.hasOwnProperty("LBD")) {
+      updatedRows.forEach((row) => {
+        if (row.id === editRow.id) {
+          row.LBD = editRow.LBD;
+        }
+      });
+    }
+    if (editRow.hasOwnProperty("is2HourDelivery")) {
+      updatedRows.forEach((row) => {
+        if (row.id === editRow.id) {
+          row.is2HourDelivery = editRow.is2HourDelivery;
+        }
+      });
+    }
+    setRows(updatedRows);
+  };
+
+  const handleAddRow = () => {
+    const newId = rows.length > 0 ? rows[rows.length - 1].id + 1 : 1;
+    const newRow = {
+      id: newId,
+      cPin: "",
+      shipsCity: "",
+      priority: false,
+      LBD: false,
+      is2HourDelivery: false,
+    };
+    const updatedRows = [newRow, ...rows];
+    setRows(updatedRows.sort((a, b) => b.id - a.id));
+    setEditRowId(newId);
+    setIsRowEditable(true);
+  };
+  const handleCancel = () => {
+    fetchTableData();
+    setIsRowEditable(false);
+    setEditRowId(-1);
+  };
+
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
+    fetchTableData();
+  };
+
   const columns: GridColDef[] = [
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "cPin",
-      headerName: "cPin",
-      editable: true,
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant="body2" sx={{ color: "text.primary" }}>
-          {params.row.cPin}
-        </Typography>
-      ),
-    },
-    {
-      flex: 0.175,
-      minWidth: 110,
-      field: "shipsCity",
-      headerName: "shipsCity",
-      editable: true,
-      renderCell: (params: GridRenderCellParams) => (
-        <Typography variant="body2" sx={{ color: "text.primary" }}>
-          {params.row.shipsCity}
-        </Typography>
-      ),
-    },
     {
       flex: 0.175,
       minWidth: 110,
@@ -114,6 +147,31 @@ const SDDNDDSuperfastPincodesTable = () => {
         </Typography>
       ),
     },
+    {
+      flex: 0.175,
+      minWidth: 110,
+      field: "cPin",
+      headerName: "cPin",
+      editable: isRowEditable,
+      renderCell: (params: GridRenderCellParams) => (
+        <Typography variant="body2" sx={{ color: "text.primary" }}>
+          {params.row.cPin}
+        </Typography>
+      ),
+    },
+    {
+      flex: 0.175,
+      minWidth: 110,
+      field: "shipsCity",
+      headerName: "shipsCity",
+      editable: isRowEditable,
+      renderCell: (params: GridRenderCellParams) => (
+        <Typography variant="body2" sx={{ color: "text.primary" }}>
+          {params.row.shipsCity}
+        </Typography>
+      ),
+    },
+
     {
       flex: 0.175,
       minWidth: 110,
@@ -169,7 +227,7 @@ const SDDNDDSuperfastPincodesTable = () => {
   // }
 
   const fetchTableData = useCallback(
-    async (sort: SortType, q: string, column: string) => {
+    async () => {
       await axios
         .get("http://localhost:3333/SDD_NDD_Superfast_Pincodes/")
         .then((res) => {
@@ -182,80 +240,10 @@ const SDDNDDSuperfastPincodesTable = () => {
   );
 
   useEffect(() => {
-    fetchTableData(sort, searchValue, sortColumn);
-  }, [fetchTableData, searchValue, sort, sortColumn]);
-
-  const handleCellEdit = (editRow: SDD_NDD_Superfast_PincodesType) => {
-    const updatedRows = rows.map((row) =>
-      row.id === editRow.id ? { ...row, ...editRow } : row
-    );
-    if (editRow.hasOwnProperty("priority")) {
-      updatedRows.forEach((row) => {
-        if (row.id === editRow.id) {
-          row.priority = editRow.priority;
-        }
-      });
-    }
-    if (editRow.hasOwnProperty("LBD")) {
-      updatedRows.forEach((row) => {
-        if (row.id === editRow.id) {
-          row.LBD = editRow.LBD;
-        }
-      });
-    }
-    if (editRow.hasOwnProperty("is2HourDelivery")) {
-      updatedRows.forEach((row) => {
-        if (row.id === editRow.id) {
-          row.is2HourDelivery = editRow.is2HourDelivery;
-        }
-      });
-    }
-    setRows(updatedRows);
-  };
-
-  // const handleSortModel = (newModel: GridSortModel) => {
-  //   if (newModel.length) {
-  //     setSort(newModel[0].sort);
-  //     setSortColumn(newModel[0].field);
-  //     fetchTableData(newModel[0].sort, searchValue, newModel[0].field);
-  //   } else {
-  //     setSort("asc");
-  //     setSortColumn("id");
-  //   }
-  // };
-  const handleAddRow = () => {
-    const newId = rows.length > 0 ? rows[rows.length - 1].id + 1 : 1;
-    const newRow = {
-      id: newId,
-      cPin: '',
-      shipsCity: '',
-      priority: false,
-      LBD: false,
-      is2HourDelivery: false
-    };
-    setRows([...rows, newRow]);
-  };
-
-  const handleSearch = (value: string) => {
-    setSearchValue(value);
-    fetchTableData(sort, value, sortColumn);
-  };
-
+    fetchTableData();
+  }, []);
   return (
     <>
-      <Button variant="contained" onClick={handleAddRow}>
-        Add Row
-      </Button>{" "}
-      <Button
-        onClick={handleSave}
-        variant="contained"
-        color="primary"
-        className="mt-4 ml-auto"
-      >
-        Save
-      </Button>
-      <br />
-      <br />
       <Card>
         <CardHeader title="SDD NDD SuperFast Delivery" />
         <DataGrid
@@ -265,12 +253,39 @@ const SDDNDDSuperfastPincodesTable = () => {
           rowCount={total}
           columns={columns}
           disableRowSelectionOnClick
-          sortingMode="server"
-          paginationMode="server"
+          paginationMode="client"
           pageSizeOptions={[5, 10, 25, 50]}
           paginationModel={paginationModel}
-          // onSortModelChange={handleSortModel}
-          slots={{ toolbar: ServerSideToolbar }}
+          isCellEditable={(params) => {
+            return params.row.id === editRowId;
+          }}
+          components={{
+            Toolbar: () => (
+              <div style={{ marginLeft: 20 }}>
+                <Button variant="contained" onClick={handleSave}>
+                  Save
+                </Button>{" "}
+                {isRowEditable ? (
+                  <>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={handleCancel}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <Button variant="contained" onClick={() => handleAddRow()}>
+                    Add New Row
+                  </Button>
+                )}
+                <br />
+                <br />
+              </div>
+            ),
+          }}
+          // slots={{ toolbar: ServerSideToolbar }}
           onPaginationModelChange={setPaginationModel}
           onCellEditStop={(params) => handleCellEdit(params as any)}
           slotProps={{

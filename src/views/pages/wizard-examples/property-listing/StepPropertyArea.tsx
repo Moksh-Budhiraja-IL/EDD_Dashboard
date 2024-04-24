@@ -17,7 +17,7 @@ import CustomTextField from 'src/@core/components/mui/text-field'
 import DatePicker from 'react-datepicker'
 
 // ** Types
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { DateType } from 'src/views/charts/types/forms/reactDatepickerTypes'
 
 interface PickerProps {
   label?: string

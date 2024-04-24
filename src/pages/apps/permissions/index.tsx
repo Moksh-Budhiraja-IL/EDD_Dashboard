@@ -32,7 +32,7 @@ import CustomTextField from 'src/@core/components/mui/text-field'
 
 // ** Types Imports
 import { RootState, AppDispatch } from 'src/store'
-import { PermissionRowType } from 'src/types/apps/permissionTypes'
+import { PermissionRowType } from 'src/views/charts/types/apps/permissionTypes'
 
 // ** Actions Imports
 import { fetchData } from 'src/store/apps/permissions'

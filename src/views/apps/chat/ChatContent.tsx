@@ -20,7 +20,7 @@ import OptionsMenu from 'src/@core/components/option-menu'
 import UserProfileRight from 'src/views/apps/chat/UserProfileRight'
 
 // ** Types
-import { ChatContentType } from 'src/types/apps/chatTypes'
+import { ChatContentType } from 'src/views/charts/types/apps/chatTypes'
 
 // ** Styled Components
 const ChatWrapperStartChat = styled(Box)<BoxProps>(({ theme }) => ({

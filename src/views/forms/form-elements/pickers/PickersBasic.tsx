@@ -11,7 +11,7 @@ import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
 import CustomInput from './PickersCustomInput'
 
 // ** Types
-import { DateType } from 'src/types/forms/reactDatepickerTypes'
+import { DateType } from 'src/views/charts/types/forms/reactDatepickerTypes'
 
 const PickersBasic = ({ popperPlacement }: { popperPlacement: ReactDatePickerProps['popperPlacement'] }) => {
   // ** States

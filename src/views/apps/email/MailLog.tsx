@@ -38,7 +38,7 @@ import {
   MailFolderType,
   MailFoldersArrType,
   MailFoldersObjType
-} from 'src/types/apps/emailTypes'
+} from 'src/views/charts/types/apps/emailTypes'
 import { OptionType } from 'src/@core/components/option-menu/types'
 
 const MailItem = styled(ListItem)<ListItemProps>(({ theme }) => ({

@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid'
 import axios from 'axios'
 
 // ** Types
-import { InvoiceType, InvoiceClientType } from 'src/types/apps/invoiceTypes'
+import { InvoiceType, InvoiceClientType } from 'src/views/charts/types/apps/invoiceTypes'
 
 // ** Demo Components Imports
 import AddCard from 'src/views/apps/invoice/add/AddCard'

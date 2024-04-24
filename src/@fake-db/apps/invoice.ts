@@ -5,7 +5,7 @@ import mock from 'src/@fake-db/mock'
 import { getDateRange } from 'src/@core/utils/get-daterange'
 
 // ** Types
-import { InvoiceType } from 'src/types/apps/invoiceTypes'
+import { InvoiceType } from 'src/views/charts/types/apps/invoiceTypes'
 
 const now = new Date()
 const currentMonth = now.toLocaleString('default', { month: 'short' })

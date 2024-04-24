@@ -1,6 +1,8 @@
+import SBDTable from "src/views/table/data-grid/SBDTable"
+
 const EDDSBD = () => {
   return (
-    <div>EDDSBD</div>
+   <SBDTable/>
   )
 }
 export default EDDSBD

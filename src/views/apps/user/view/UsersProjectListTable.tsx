@@ -18,7 +18,7 @@ import CustomTextField from 'src/@core/components/mui/text-field'
 import axios from 'axios'
 
 // ** Type Imports
-import { ProjectListDataType } from 'src/types/apps/userTypes'
+import { ProjectListDataType } from 'src/views/charts/types/apps/userTypes'
 
 interface CellType {
   row: ProjectListDataType
