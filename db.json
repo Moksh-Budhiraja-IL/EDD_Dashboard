@@ -1,30 +1,62 @@
 {
-  "SDD_NDD_Superfast_Pincodes": [
+  "CutOff": [
     {
-      "id": 3000,
-      "cPin": "560001",
-      "shipsCity": "WN-MBLR0001",
-      "priority": true,
-      "LBD": false,
-      "is2HourDelivery": false
+      "id": 1,
+      "wh": "CWH-BLR001",
+      "type": "SDD",
+      "cutOff": "14:00"
     },
     {
-      "id": 3001,
-      "cPin": "560002",
-      "shipsCity": "WN-MBLR0001",
-      "priority": true,
-      "LBD": true,
-      "is2HourDelivery": false
+      "id": 2,
+      "wh": "CWH-BLR001",
+      "type": "NDD",
+      "cutOff": "14:00"
     },
     {
-      "0": {
-        "id": 3000,
-        "cPin": "560001",
-        "shipsCity": "WN-MBLR0001",
-        "priority": true,
-        "LBD": false,
-        "is2HourDelivery": false
-      }
+      "id": 3,
+      "wh": "CWH-BLR001",
+      "type": "Others",
+      "cutOff": "14:00"
+    }
+  ],
+  "DBD": [
+    {
+      "id": 1,
+      "cPin": 110007,
+      "DBD": 2
+    },
+    {
+      "id": 2,
+      "cPin": 110043,
+      "DBD": 2
+    },
+    {
+      "id": 3,
+      "cPin": 110039,
+      "DBD": 2
+    },
+    {
+      "id": 4,
+      "cPin": 110044,
+      "DBD": 2
+    }
+  ],
+  "LBD": [
+    {
+      "id": 1,
+      "cPin": 110007,
+      "wh": "CWH-BLR001",
+      "minWt": 0.5,
+      "maxWt": 2,
+      "LBD": 1
+    },
+    {
+      "id": 2,
+      "cPin": 110008,
+      "wh": "CWH-BLR002",
+      "minWt": 0.25,
+      "maxWt": 1.5,
+      "LBD": 1
     }
   ],
   "Pincodes": [
@@ -43,18 +75,153 @@
       "stateFullName": "Andaman and Nicobars"
     }
   ],
-  "SBD":[
+  "SBD": [
     {
-      "id":1,
-      "WH":"BLRDSKN1",
-      "SBD":false,
+      "id": 1,
+      "WH": "BLRDSKN1",
+      "SBD": false,
       "is2HourDel": false
     },
     {
-      "id":1,
-      "WH":"BLRDSKN1",
-      "SBD":false,
+      "id": 2,
+      "WH": "CWH-BLR001",
+      "SBD": false,
       "is2HourDel": false
+    },
+    {
+      "id": 3,
+      "WH": "PWH001",
+      "SBD": true,
+      "is2HourDel": false
+    },
+    {
+      "id": 4,
+      "WH": "PWH002",
+      "SBD": false,
+      "is2HourDel": false
+    }
+  ],
+  "SDD_NDD_Superfast_Pincodes": [
+    {
+      "id": 3000,
+      "cPin": "560001",
+      "shipsCity": "WN-MBLR0001",
+      "priority": true,
+      "LBD": false,
+      "is2HourDelivery": false
+    },
+    {
+      "id": 3001,
+      "cPin": "560002",
+      "shipsCity": "WN-MBLR0001",
+      "priority": true,
+      "LBD": true,
+      "is2HourDelivery": false
+    },
+    {
+      "id": 3002,
+      "cPin": "560002",
+      "shipsCity": "WN-MBLR0001",
+      "priority": true,
+      "LBD": true,
+      "is2HourDelivery": false
+    },
+    {
+      "id": 3003,
+      "cPin": "560002",
+      "shipsCity": "WN-MBLR0001",
+      "priority": true,
+      "LBD": true,
+      "is2HourDelivery": false
+    },
+    {
+      "id": 3004,
+      "cPin": "560002",
+      "shipsCity": "WN-MBLR0001",
+      "priority": true,
+      "LBD": true,
+      "is2HourDelivery": false
+    },
+    {
+      "id": 3005,
+      "cPin": "560002",
+      "shipsCity": "WN-MBLR0001",
+      "priority": true,
+      "LBD": true,
+      "is2HourDelivery": false
+    },
+    {
+      "id": 3006,
+      "cPin": "560002",
+      "shipsCity": "WN-MBLR0001",
+      "priority": true,
+      "LBD": true,
+      "is2HourDelivery": false
+    },
+    {
+      "id": 3007,
+      "cPin": "560002",
+      "shipsCity": "WN-MBLR0001",
+      "priority": true,
+      "LBD": true,
+      "is2HourDelivery": false
+    }
+  ],
+  "WHConfig": [
+    {
+      "id":1,
+      "wh":"CWH-BLR001",
+      "panIndiaStatus":true,
+      "panIndiaEDDConfigCsv":null,
+      "SDDStatus":true,
+      "SDDPincodesCsv":null,
+      "NDDStatus":true,
+      "NDDPincodesCsv":null,
+      "SuperfastStatus":true,
+      "SuperfastPincodesCsv":null,
+      "panIndiaCutOff":"00:00",
+      "SDDCutOff":"00:00",
+      "NDDCutOff":"00:00",
+      "SuperfastCutOff":"00:00",
+      "workingDays":7,
+      "SBD":2
+    },
+    {
+      "id":2,
+      "wh":"CWH-BLR002",
+      "panIndiaStatus":true,
+      "SDDStatus":true,
+      "NDDStatus":true,
+      "SuperfastStatus":true,
+      "panIndiaCutOff":"00:00",
+      "SDDCutOff":"00:00",
+      "NDDCutOff":"00:00",
+      "SuperfastCutOff":"00:00",
+      "workingDays":7,
+      "SBD":2
+    }
+  ],
+  "WHOperations": [
+    {
+      "id": 1,
+      "wh": "CWH-BLR001",
+      "whStatus": false,
+      "courier": [
+        {
+          "id:": 1,
+          "courierName": "Sdd",
+          "courierStatus": true,
+          "weekdays": [
+            { "id": 1, "weekday": "Sunday", "weekdayBool": true },
+            { "id": 2, "weekday": "Monday", "weekdayBool": true },
+            { "id": 3, "weekday": "Tuesday", "weekdayBool": true },
+            { "id": 4, "weekday": "Wednesday", "weekdayBool": true },
+            { "id": 5, "weekday": "Thursday", "weekdayBool": true },
+            { "id": 6, "weekday": "Friday", "weekdayBool": true },
+            { "id": 7, "weekday": "Saturday", "weekdayBool": true }
+          ]
+        }
+      ]
     }
   ]
 }
